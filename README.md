@@ -1,89 +1,91 @@
-# 簡繁轉換器＋兩岸用語詞彙庫
+**简体中文** | [繁體中文](README.zh-Hant.md)
 
-純 HTML＋JavaScript 的簡繁轉換工具，不需要後端或資料庫。
+# 简繁转换器＋两岸用语词汇库
 
-- 字形轉換使用 [OpenCC](https://github.com/nk2028/opencc-js)，全部在瀏覽器內完成。
-- 兩岸用語詞彙庫放在 `data/` 資料夾的 JSON 檔，任何人都可以提交 Pull Request 擴充。
-- 轉換時會標出三種用語：
-  - **一般用語**：例如 充電寶 → 行動電源，「簡→繁＋台灣地區詞彙」模式會直接替換。
-  - **評價意涵**：例如 顏值、情緒價值、下沉市場，只標示並附上意涵說明，不替換。
-  - **同字異義**：例如 窩心、愛人、研究所，只標示提醒。
-- 也可以上傳 **EPUB**，在瀏覽器內把正文、目錄、書名等在繁體與簡體之間轉換（雙向），重新打包後下載；檔案不會上傳。
-- 介面文字提供繁體與简体兩種版本，第一次開啟會跟隨瀏覽器語言，之後可在右上角自由切換。
-- 附 **Chrome／Edge 擴充「简繁通」**：用同一套詞彙庫自動轉換一般網頁，可選詞彙標註與本頁暫停／還原。
+纯 HTML＋JavaScript 的简繁转换工具，不需要后端或数据库。
 
-## 專案結構
+- 字形转换使用 [OpenCC](https://github.com/nk2028/opencc-js)，全部在浏览器内完成。
+- 两岸用语词汇库放在 `data/` 文件夹的 JSON 文件里，任何人都可以提交 Pull Request 扩充。
+- 转换时会标出三种用语：
+  - **一般用语**：例如 充电宝 → 移动电源，「简→繁＋台湾地区词汇」模式会直接替换。
+  - **评价意涵**：例如 颜值、情绪价值、下沉市场，只标注并附上意涵说明，不替换。
+  - **同字异义**：例如 窝心、爱人、研究所，只标注提醒。
+- 也可以上传 **EPUB**，在浏览器内把正文、目录、书名等在繁体与简体之间转换（双向），重新打包后下载；文件不会上传。
+- 界面文字提供繁体与简体两种版本，第一次打开会跟随浏览器语言，之后可在右上角自由切换。
+- 附 **Chrome／Edge 扩展「简繁通」**：用同一套词汇库自动转换一般网页，可选词汇标注与本页暂停／还原。
+
+## 项目结构
 
 ```
-index.html                 頁面
-style.css                  樣式
-app.js                     轉換與詞彙比對邏輯
-i18n.js                    介面繁簡文案與切換
-epub-core.js               EPUB 轉換核心（瀏覽器與命令列共用）
-config.js                  你的 GitHub repo 名稱（用來產生編輯連結）
-data/index.json            要載入的詞彙檔清單
-data/<分類>.json           每個分類一個檔案
-scripts/validate.mjs       檢查詞彙檔格式
-tools/epub-convert.mjs     命令列批次轉換 EPUB
-tools/build-extension.mjs  產生擴充的詞彙資料與 vendor 檔（--check 檢查過期）
-tools/make-extension-icons.py  繪製擴充圖示（產物已提交）
-extension/                 Chrome／Edge 擴充「简繁通」
-package.json               CLI 與擴充建置依賴（jszip、opencc-js）
-.github/workflows/         PR 自動檢查與部署
+index.html                 页面
+style.css                  样式
+app.js                     转换与词汇匹配逻辑
+i18n.js                    界面繁简文案与切换
+epub-core.js               EPUB 转换核心（浏览器与命令行共用）
+config.js                  你的 GitHub repo 名称（用来生成编辑链接）
+data/index.json            要加载的词汇文件清单
+data/<分类>.json           每个分类一个文件
+scripts/validate.mjs       检查词汇文件格式
+tools/epub-convert.mjs     命令行批量转换 EPUB
+tools/build-extension.mjs  生成扩展的词汇数据与 vendor 文件（--check 检查过期）
+tools/make-extension-icons.py  绘制扩展图标（产物已提交）
+extension/                 Chrome／Edge 扩展「简繁通」
+package.json               CLI 与扩展构建依赖（jszip、opencc-js）
+.github/workflows/         PR 自动检查与部署
 ```
 
-## 上線（GitHub Pages）
+## 上线（GitHub Pages）
 
-1. 建立 repo，把整個資料夾推上去。
-2. 編輯 `config.js`，把 `repo` 改成 `你的帳號/repo名稱`。
-3. 到 repo 的 **Settings → Pages**，Source 選 **Deploy from a branch**，分支選 `main`、資料夾選 `/ (root)`。
-4. 約一分鐘後網址會出現在同一頁，通常是 `https://你的帳號.github.io/repo名稱/`。
+1. 建立 repo，把整个文件夹推上去。
+2. 编辑 `config.js`，把 `repo` 改成 `你的账号/repo名称`。
+3. 到 repo 的 **Settings → Pages**，Source 选 **Deploy from a branch**，分支选 `main`、文件夹选 `/ (root)`。
+4. 约一分钟后网址会出现在同一页，通常是 `https://你的账号.github.io/repo名称/`。
 
-之後每次合併 PR，網站就會自動更新。
+之后每次合并 PR，网站就会自动更新。
 
-## 本機預覽
+## 本地预览
 
-頁面用 `fetch` 讀 JSON，直接雙擊 `index.html` 會讀不到詞彙庫，請開一個本機伺服器：
+页面用 `fetch` 读取 JSON，直接双击 `index.html` 会读不到词汇库，请开一个本地服务器：
 
 ```bash
 python3 -m http.server 8000
-# 然後打開 http://localhost:8000
+# 然后打开 http://localhost:8000
 ```
 
-## 介面語言
+## 界面语言
 
-右上角可切換**繁體**／**简体**介面。第一次開啟會跟隨瀏覽器語言（`zh-CN`／`zh-Hans` 用简体，其餘用繁體），之後記住手動選擇（存在 `localStorage` 的 `s2t-lang`）。切換只翻譯介面文案；詞條、備註、分類名稱等資料維持原樣。
+右上角可切换**繁体**／**简体**界面。第一次打开会跟随浏览器语言（`zh-CN`／`zh-Hans` 用简体，其余用繁体），之后记住手动选择（存在 `localStorage` 的 `s2t-lang`）。切换只翻译界面文案；词条、备注、分类名称等数据维持原样。
 
-## EPUB 轉換（簡繁雙向）
+## EPUB 转换（简繁双向）
 
-在網站的「EPUB 轉換」分頁選擇方向（繁 → 簡 或 簡 → 繁），上傳 EPUB、按「開始轉換」，完成後下載 `原檔名_zh-Hans.epub` 或 `原檔名_zh-Hant.epub`。
+在网站的「EPUB 转换」标签页选择方向（繁 → 简 或 简 → 繁），上传 EPUB、按「开始转换」，完成后下载 `原文件名_zh-Hans.epub` 或 `原文件名_zh-Hant.epub`。
 
-- **繁 → 簡**：OpenCC 字形轉換，可選擇同時套用台灣地區→中國大陸用語詞彙庫。
-- **簡 → 繁**：勾選「同時套用 OpenCC 詞語＋台灣地區用語詞彙庫」時，使用 OpenCC 台灣地區詞語轉換（`twp`）加上本站詞彙庫；不勾選則只轉字形。
-- 會轉換 XHTML／HTML 正文、EPUB2 的 `toc.ncx`、EPUB3 的導覽文件，以及書名、作者、簡介等 Dublin Core 中繼資料；可選擇是否轉換中繼資料，並把語言標為 `zh-CN`／`zh-TW`。
-- 圖片、樣式、版面與檔名不變；輸出仍維持 EPUB2／EPUB3 結構。
-- `mimetype` 會保持為 ZIP 的第一個且不壓縮的項目。
-- 轉換使用 [JSZip](https://stuk.github.io/jszip/)（CDN 載入）與 OpenCC，全程在瀏覽器內完成，檔案不會上傳。
-- 限制：受 DRM 保護的電子書會中止轉換；CSS `content` 裡的文字與圖片中的文字不會轉換；字型混淆等其他加密項目會原樣保留。
-- 需要網路載入 OpenCC、JSZip 與字型；CDN 載入失敗時 EPUB 功能會顯示錯誤。
+- **繁 → 简**：OpenCC 字形转换，可选择同时套用台湾地区→中国大陆用语词汇库。
+- **简 → 繁**：勾选「同时套用 OpenCC 词语＋台湾地区用语词汇库」时，使用 OpenCC 台湾地区词语转换（`twp`）加上本站词汇库；不勾选则只转字形。
+- 会转换 XHTML／HTML 正文、EPUB2 的 `toc.ncx`、EPUB3 的导航文件，以及书名、作者、简介等 Dublin Core 元数据；可选择是否转换元数据，并把语言标为 `zh-CN`／`zh-TW`。
+- 图片、样式、版面和文件名不变；输出仍维持 EPUB2／EPUB3 结构。
+- `mimetype` 会保持为 ZIP 的第一个且不压缩的项目。
+- 转换使用 [JSZip](https://stuk.github.io/jszip/)（CDN 加载）与 OpenCC，全程在浏览器内完成，文件不会上传。
+- 限制：受 DRM 保护的电子书会中止转换；CSS `content` 里的文字与图片中的文字不会转换；字体混淆等其他加密项目会原样保留。
+- 需要网络加载 OpenCC、JSZip 与字体；CDN 加载失败时 EPUB 功能会显示错误。
 
-## 瀏覽器擴充：简繁通（Chrome／Edge）
+## 浏览器扩展：简繁通（Chrome／Edge）
 
-`extension/` 是 Manifest V3 擴充，把同一套兩岸用語詞彙庫套用到一般網頁：依目標文字自動把簡體頁轉成繁體（台灣地區）用語（或反向），已是目標文字就不動。可選擇替換詞加虛線標註、懸停看原文與備註；彈窗能強制方向或暫停並還原本頁。
+`extension/` 是 Manifest V3 扩展，把同一套两岸用语词汇库套用到一般网页：依目标文字自动把简体页转成繁体（台湾地区）用语（或反向），已是目标文字就不动。可选择替换词加虚线标注、悬停看原文与备注；弹窗能强制方向或暂停并还原本页。
 
-安裝（未上架，開發人員模式）：
+安装（未上架，开发者模式）：
 
-1. `npm install && npm run build:ext` 產生 `extension/terms-data.js` 與 `extension/vendor/`（repo 若已含這些檔案可跳過）。
-2. 開啟 `chrome://extensions`（Edge：`edge://extensions`），打開「開發人員模式」。
-3. 「載入未封裝項目」選擇 `extension/`，重新整理已開啟的網頁。
+1. `npm install && npm run build:ext` 生成 `extension/terms-data.js` 与 `extension/vendor/`（repo 若已含这些文件可跳过）。
+2. 打开 `chrome://extensions`（Edge：`edge://extensions`），打开「开发者模式」。
+3. 「加载已解压的扩展程序」选择 `extension/`，重新加载已打开的网页。
 
-權限與隱私：需要在所有 http/https 網頁注入 content script（Chrome 會顯示「讀取及變更所有網站資料」），另用 `storage` 存設定、`activeTab` 讀目前分頁狀態。OpenCC 與詞彙資料都打包在擴充內，不連網、不收集頁面內容。快捷鍵 `Alt+Shift+J` 可暫停／恢復本頁；徽章顯示「繁」或「简」。
+权限与隐私：需要在所有 http/https 网页注入 content script（Chrome 会显示「读取和更改所有网站上的数据」），另用 `storage` 存设置、`activeTab` 读取当前标签页状态。OpenCC 与词汇数据都打包在扩展内，不联网、不收集页面内容。快捷键 `Alt+Shift+J` 可暂停／恢复本页；徽章显示「繁」或「简」。
 
-`extension/` 不會部署到 GitHub Pages。完整說明、限制與開發方式見 [`extension/README.md`](extension/README.md)。
+`extension/` 不会部署到 GitHub Pages。完整说明、限制与开发方式见 [`extension/README.md`](extension/README.md)。
 
-## 命令列批次轉換 EPUB
+## 命令行批量转换 EPUB
 
-需要 Node.js 18.17 以上。先安裝依賴：
+需要 Node.js 18.17 以上。先安装依赖：
 
 ```bash
 npm install
@@ -92,19 +94,19 @@ npm install
 用法：
 
 ```bash
-node tools/epub-convert.mjs --to cn|tw [選項] <檔案或資料夾...>
+node tools/epub-convert.mjs --to cn|tw [选项] <文件或文件夹...>
 npm run epub -- --to tw books/
 ```
 
-- `--to cn|tw`：轉換方向，`cn` 轉成簡體、`tw` 轉成繁體（必填）。
-- `--out <資料夾>`：輸出資料夾（預設放在原檔旁邊）；指定目錄時會保留子資料夾結構。
-- `--no-terms`：不套用兩岸用語詞彙庫。
-- `--no-meta`：不轉換書名、作者、簡介等中繼資料。
-- `--force`：覆蓋已存在的輸出檔（預設跳過）。
-- `--quiet`：只顯示錯誤。
-- `-h` / `--help`：顯示說明。
+- `--to cn|tw`：转换方向，`cn` 转成简体、`tw` 转成繁体（必填）。
+- `--out <文件夹>`：输出文件夹（默认放在原文件旁边）；指定目录时会保留子文件夹结构。
+- `--no-terms`：不套用两岸用语词汇库。
+- `--no-meta`：不转换书名、作者、简介等元数据。
+- `--force`：覆盖已存在的输出文件（默认跳过）。
+- `--quiet`：只显示错误。
+- `-h` / `--help`：显示说明。
 
-資料夾會遞迴尋找 `.epub`，略過 `.git`、`node_modules`、符號連結與輸出資料夾，並跳過檔名已是指定語言後綴的檔案。輸出檔名為 `原檔名_zh-Hans.epub` 或 `原檔名_zh-Hant.epub`。每次轉換會印出內容檔案數、詞彙替換次數與變更字數；有任何檔案失敗時結束碼為 1，用法錯誤為 2。
+文件夹会递归查找 `.epub`，跳过 `.git`、`node_modules`、符号链接与输出文件夹，并跳过文件名已是指定语言后缀的文件。输出文件名为 `原文件名_zh-Hans.epub` 或 `原文件名_zh-Hant.epub`。每次转换会打印内容文件数、词汇替换次数与变更字数；有任何文件失败时退出码为 1，用法错误为 2。
 
 例：
 
@@ -114,36 +116,36 @@ node tools/epub-convert.mjs --to cn --out out/ a.epub b.epub
 node tools/epub-convert.mjs --to tw --no-terms novel.epub
 ```
 
-命令列與網站共用 `epub-core.js`，轉換結果與網站一致；詞彙庫讀取 repo 內的 `data/`，與目前工作目錄無關。
+命令行与网站共用 `epub-core.js`，转换结果与网站一致；词汇库读取 repo 内的 `data/`，与当前工作目录无关。
 
-## 貢獻詞彙
+## 贡献词汇
 
-請看 [CONTRIBUTING.md](CONTRIBUTING.md)。網站的「詞彙庫」分頁也有表單，可以產生要貼上的 JSON，並直接打開 GitHub 的編輯頁。
+请看 [CONTRIBUTING.md](CONTRIBUTING.md)。网站的「词汇库」标签页也有表单，可以生成要粘贴的 JSON，并直接打开 GitHub 的编辑页。
 
-## 詞彙庫來源（v1.0.0）
+## 词汇库来源（v1.0.0）
 
-第一版詞彙整理自〈兩岸用語差異總整理〉，起點是 Threads 上 @sharon_is_thinking 分享志祺七七訪問陽交大萬宗綸副教授的串文與留言，再補上網路資料與常見的兩岸用語對照。
+第一版词汇整理自〈两岸用语差异总整理〉，起点是 Threads 上 @sharon_is_thinking 分享志祺七七采访阳明交大万宗纶副教授的帖子与留言，再补上网络资料与常见的两岸用语对照。
 
-### 收錄時的立場
+### 收录时的立场
 
-- **不少詞原本是自嘲或諷刺**：屌絲、打工人、社畜、韭菜多半是在抱怨處境；普信男是女性諷刺男性過度自信。標為「評價意涵」是說明它帶有分級或物化的框架，不等於使用者在宣揚階級。
-- **台灣地區也有類似的詞**：CP值、魯蛇／溫拿、人生勝利組、天龍人、草莓族、恐龍妹、工具人。評分與分類的語言不只來自單一方向。
-- **字面推論只是個人解讀**：「小夥伴暗示對方較小」「默認暗示沒發言權」「學霸隱含反知識份子」等說法來自留言，不是語言學定論，備註裡都有註明。
-- **使用者未必在乎來源**：東海大學一份學生調查發現，多數受訪者認為用詞與政治無關、屬個人自由；因身分認同刻意不用中國大陸用語的約一成。
-- **影片的核心觀點**：重點不在詞從哪裡來，而是某種評價方式一旦變得「好說、常說」，人們就更習慣用那套標準看人。
+- **不少词原本是自嘲或讽刺**：屌丝、打工人、社畜、韭菜多半是在抱怨处境；普信男是女性讽刺男性过度自信。标为「评价意涵」是说明它带有分级或物化的框架，不等于用户在宣扬阶级。
+- **台湾地区也有类似的词**：CP值、鲁蛇／温拿、人生胜利组、天龙人、草莓族、恐龙妹、工具人。评分与分类的语言不只来自单一方向。
+- **字面推论只是个人解读**：「小伙伴暗示对方较小」「默认暗示没发言权」「学霸隐含反知识分子」等说法来自留言，不是语言学定论，备注里都有注明。
+- **用户未必在乎来源**：东海大学一份学生调查发现，多数受访者认为用词与政治无关、属个人自由；因身份认同刻意不用中国大陆用语的约一成。
+- **视频的核心观点**：重点不在词从哪里来，而是某种评价方式一旦变得「好说、常说」，人们就更习惯用那套标准看人。
 
-### 參考資料
+### 参考资料
 
-- [聯合新聞網：閨蜜、顏值等用語報導](https://udn.com/news/story/120912/7955289)
+- [联合新闻网：闺蜜、颜值等用语报道](https://udn.com/news/story/120912/7955289)
 - [Sixth Tone：Young Chinese Buy to Feel Better](https://www.sixthtone.com/news/1017590)
 - [Sixth Tone：Young Chinese Bemoan Rat Race](https://www.sixthtone.com/news/1006336/)
 - [Language Log：Chinese terms of address for single ladies](https://languagelog.ldc.upenn.edu/nll/?p=4116)
 - [Yoyo Chinese：Dating Scene in China](https://www.yoyochinese.com/blog/learn-chinese-love-dating-in-china-single-dog-leftover-woman-marriage)
-- [港大詞彙表：高富帥](https://www.interpreting.hku.hk/glossary/?p=49990)
+- [港大词汇表：高富帅](https://www.interpreting.hku.hk/glossary/?p=49990)
 - [Eye Shenzhen：下沉市场](https://www.eyeshenzhen.com/content/2019-09/30/content_22511676.htm)
 - [Eye Shenzhen：割韭菜](https://www.eyeshenzhen.com/content/2018-09/05/content_21075239.htm)
-- [新頭殼：特殊用語報導](https://newtalk.tw/news/view/2024-12-11/948495)
-- [東海大學：用語使用調查](https://nihongo.thu.edu.tw/research/wp-content/uploads/郭O瑩-說明文.pdf)
-- [關鍵評論網：支語警察](https://www.thenewslens.com/article/242817)
-- [國立國語院：兩岸常用詞典介紹](https://www.korean.go.kr/nkview/nklife/2018_3/28_0310.pdf)
-- [ToneOZ：普通話與國語語音差異](https://toneoz.com/blog/?p=309)
+- [新头壳：特殊用语报道](https://newtalk.tw/news/view/2024-12-11/948495)
+- [东海大学：用语使用调查](https://nihongo.thu.edu.tw/research/wp-content/uploads/郭O瑩-說明文.pdf)
+- [关键评论网：支语警察](https://www.thenewslens.com/article/242817)
+- [国立国语院：两岸常用词典介绍](https://www.korean.go.kr/nkview/nklife/2018_3/28_0310.pdf)
+- [ToneOZ：普通话与国语语音差异](https://toneoz.com/blog/?p=309)
