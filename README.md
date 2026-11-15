@@ -1,3 +1,5 @@
+本项目是在项目 https://github.com/Zhang-RenWen/cn-tw-terms 基础上进行的二次开发。
+
 **简体中文** | [繁體中文](README.zh-Hant.md)
 
 # 简繁转换器＋两岸用语词汇库

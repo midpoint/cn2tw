@@ -1,3 +1,5 @@
+本項目是在項目 https://github.com/Zhang-RenWen/cn-tw-terms 基礎上進行的二次開發。
+
 [简体中文](README.md) | **繁體中文**
 
 # 簡繁轉換器＋兩岸用語詞彙庫
