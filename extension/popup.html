@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-lang="hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="light dark">
+  <title>简繁通</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <div class="brand">
+      <img class="logo" src="icons/icon32.png" width="28" height="28" alt="">
+      <h1 data-i18n="appName">简繁通</h1>
+    </div>
+    <div class="langs" id="langs" role="group" data-i18n-aria="uiLang">
+      <button type="button" class="lang" data-lang="hant" data-i18n-title="langHantTitle" aria-pressed="true">繁</button>
+      <button type="button" class="lang" data-lang="hans" data-i18n-title="langHansTitle" aria-pressed="false">简</button>
+    </div>
+  </header>
+
+  <main>
+    <label class="master card">
+      <input id="enabled" type="checkbox" aria-labelledby="masterTitle">
+      <span class="track" aria-hidden="true"></span>
+      <span class="master-text">
+        <span class="master-title" id="masterTitle" data-i18n="enabled">自動轉換網頁</span>
+        <span class="hint" data-i18n="enabledHint">依目標文字自動轉換</span>
+      </span>
+    </label>
+
+    <section class="field">
+      <div class="field-label" data-i18n="target">目標文字</div>
+      <div class="seg" id="targetField" role="group" data-i18n-aria="target">
+        <button type="button" id="targetTw" data-target="tw" aria-pressed="false">繁體（台灣地區）</button>
+        <button type="button" id="targetCn" data-target="cn" aria-pressed="false">简体（中国大陆）</button>
+      </div>
+    </section>
+
+    <section class="status card" aria-live="polite">
+      <div class="state" id="stateText" data-i18n="stateLoading">讀取頁面狀態…</div>
+      <div class="stats" id="statsText"></div>
+      <div class="hint" id="pageHint"></div>
+    </section>
+
+    <section class="field">
+      <div class="field-label" data-i18n="thisPage">本頁操作</div>
+      <div class="actions" id="pageField">
+        <button type="button" data-override="auto" data-i18n="auto">自動</button>
+        <button type="button" data-override="to-tw" data-i18n="toTw">簡→繁</button>
+        <button type="button" data-override="to-cn" data-i18n="toCn">繁→簡</button>
+        <button type="button" data-override="paused" data-i18n="pause">暫停並還原</button>
+      </div>
+    </section>
+
+    <section class="options">
+      <label class="check">
+        <input id="terms" type="checkbox">
+        <span data-i18n="terms">套用兩岸用語詞彙庫</span>
+      </label>
+      <label class="check">
+        <input id="annotate" type="checkbox">
+        <span data-i18n="annotate">標註替換用語</span>
+      </label>
+      <div class="hint" data-i18n="annotateHint">開啟後，替換過的詞會有虛線底線，懸停可看原文與備註。</div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="dataVer" data-i18n="dataVersionUnknown">詞庫版本 —</span>
+    <span data-i18n="shortcut">快捷鍵 Alt+Shift+J</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

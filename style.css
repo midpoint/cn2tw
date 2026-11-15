@@ -8,6 +8,11 @@
   --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,monospace;
 }
+/* 介面切到簡體時使用簡體字型，避免以繁體字形顯示簡體字 */
+html[data-lang="hans"]{
+  --f-display:"Noto Serif SC","Songti SC","SimSun",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121816; --panel:#1a2220; --ink:#e4ece9; --muted:#93a39e; --line:#2c3835;
   --jade:#5cc2a3; --jade-soft:#1f3a32; --mark:#5a4b17;
@@ -21,6 +26,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 40px}
 .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.header-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:0}
+@media (max-width:760px){.header-side{align-items:flex-start}}
 h1{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,5vw,42px);line-height:1.1;margin:0;letter-spacing:.02em;text-wrap:balance}
 h1 .arrow{color:var(--jade);font-weight:600;margin:0 .15em}
 h1 .from{color:var(--muted);font-weight:600}
@@ -50,7 +57,7 @@ textarea.main:focus{outline:none}
 .out .t-loaded{background:var(--loaded-soft);text-decoration:underline wavy var(--loaded)}
 .out .t-false{background:var(--false-soft);text-decoration:underline dotted var(--false)}
 .out.plain mark,.out.plain .t{background:none;text-decoration:none;padding:0}
-.out:empty::before{content:"轉換結果會出現在這裡";color:var(--muted)}
+.out:empty::before{content:attr(data-empty);color:var(--muted)}
 .pane-foot{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px;border-top:1px solid var(--line);align-items:center}
 .btn{border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;cursor:pointer}
 .btn:hover{border-color:var(--jade);color:var(--jade)}
@@ -65,7 +72,7 @@ textarea.main:focus{outline:none}
 .status{font-size:13px;color:var(--muted)}
 .status.err{color:var(--loaded)}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend > span{display:inline-flex;align-items:center;gap:6px}
 .sw{display:inline-block;width:22px;height:14px;border-radius:2px}
 .sw.c{background:var(--mark)} .sw.v{background:var(--jade-soft);border-bottom:2px solid var(--vocab)}
 .sw.l{background:var(--loaded-soft);border-bottom:2px solid var(--loaded)} .sw.f{background:var(--false-soft);border-bottom:2px dotted var(--false)}
@@ -105,6 +112,7 @@ footer code{font-family:var(--f-mono);font-size:12px}
 *{box-sizing:border-box}
 html{color-scheme:light}
 body{margin:0}
+[hidden]{display:none!important}
 .form pre{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;font-family:var(--f-mono);font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:220px;overflow:auto}
 .form ol{margin:0;padding-left:20px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 a{color:var(--jade)}
@@ -138,3 +146,25 @@ a{color:var(--jade)}
 .alt-menu button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;text-align:left;padding:7px 10px;border-radius:6px;cursor:pointer}
 .alt-menu button:hover,.alt-menu button:focus-visible{background:var(--jade-soft);outline:none}
 .alt-menu button.cur{color:var(--jade);font-weight:700}
+/* EPUB 轉簡 */
+a.btn{text-decoration:none;display:inline-block}
+.drop{margin:14px;padding:30px 18px;border:1.5px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;color:var(--muted);cursor:pointer;transition:border-color .15s,background .15s}
+.drop:hover{border-color:var(--jade)}
+.drop:focus-visible{border-color:var(--jade);outline:2px solid var(--jade);outline-offset:2px}
+.drop.over{border-color:var(--jade);background:var(--jade-soft)}
+.drop .big{font-size:17px;color:var(--ink);margin:0}
+.drop .hint{font-size:13px;margin:0;max-width:44ch}
+.drop .btn{display:inline-block}
+.fileinfo{padding:0 14px 12px;font-size:14px;min-width:0}
+.fileinfo .name{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.epub-dir{padding:10px 14px 0}
+.chip:disabled{opacity:.5;cursor:default}
+.epub-opts{display:flex;flex-wrap:wrap;gap:8px 18px;padding:0 14px 12px}
+.epub-opts .toggle{margin-left:0}
+.epub-progress{display:flex;flex-direction:column;gap:6px;padding:0 14px 14px}
+.epub-progress progress{width:100%;height:10px;border:0;border-radius:999px;overflow:hidden;background:var(--line);accent-color:var(--jade)}
+.epub-progress progress::-webkit-progress-bar{background:var(--line);border-radius:999px}
+.epub-progress progress::-webkit-progress-value{background:var(--jade);border-radius:999px}
+.epub-progress progress::-moz-progress-bar{background:var(--jade);border-radius:999px}
+.epub-progress .status{margin:0}
+.epub-stats{font-size:12px;color:var(--muted);margin:0;font-family:var(--f-mono)}

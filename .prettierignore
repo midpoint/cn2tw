@@ -1,5 +1,10 @@
 # 這些檔案維持原本的精簡寫法，存檔時不要自動排版
 app.js
+i18n.js
+epub-core.js
 style.css
 scripts/
+tools/
+extension/
+package-lock.json
 *.md

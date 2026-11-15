@@ -1,0 +1,34 @@
+/* 简繁通：只標註詞彙庫替換過的片段，不改變字體或行距。 */
+span.jft-term {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: help;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: #1f7a63;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  span.jft-term:hover {
+    background-color: rgba(31, 122, 99, 0.12);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  span.jft-term {
+    text-decoration-color: #8fd3bd;
+  }
+
+  @media (hover: hover) {
+    span.jft-term:hover {
+      background-color: rgba(143, 211, 189, 0.16);
+    }
+  }
+}

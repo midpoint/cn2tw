@@ -3,10 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>兩岸用語對照・簡繁轉換器｜中國用語轉台灣用語</title>
+    <script>
+      // 在首次繪製前先決定介面語言，避免字型與 lang 屬性閃爍
+      (function () {
+        var l;
+        try { l = localStorage.getItem('s2t-lang'); } catch (e) {}
+        if (l !== 'hant' && l !== 'hans') {
+          var n = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+          l = /^zh-(cn|hans|sg|my)$/i.test(n) || /^zh-hans\b/i.test(n) ? 'hans' : 'hant';
+        }
+        window.__UI_LANG__ = l;
+        document.documentElement.lang = l === 'hans' ? 'zh-Hans' : 'zh-Hant-TW';
+        document.documentElement.setAttribute('data-lang', l);
+      })();
+    </script>
+    <title>兩岸用語對照・簡繁轉換器｜中國大陸用語轉台灣地區用語</title>
     <meta
       name="description"
-      content="免費線上簡繁轉換器，把簡體轉成台灣正體，同時把中國用語換成台灣用語（視頻→影片、軟件→軟體），並標出評價意涵與同字異義。附兩岸用語對照表。"
+      content="免費線上簡繁轉換器，把簡體轉成台灣地區正體，同時把中國大陸用語換成台灣地區用語（視頻→影片、軟件→軟體），並標出評價意涵與同字異義。附兩岸用語對照表，也能上傳 EPUB 在簡體與繁體之間轉換。"
     />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
@@ -16,10 +30,10 @@
     <link rel="canonical" href="https://zhang-renwen.github.io/cn-tw-terms/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="兩岸用語對照・簡繁轉換器" />
-    <meta property="og:title" content="兩岸用語對照・簡繁轉換器｜中國用語轉台灣用語" />
+    <meta property="og:title" content="兩岸用語對照・簡繁轉換器｜中國大陸用語轉台灣地區用語" />
     <meta
       property="og:description"
-      content="簡體轉台灣正體，同時把中國用語換成台灣用語，並標出評價意涵與同字異義。"
+      content="簡體轉台灣地區正體，同時把中國大陸用語換成台灣地區用語，並標出評價意涵與同字異義。"
     />
     <meta property="og:url" content="https://zhang-renwen.github.io/cn-tw-terms/" />
     <meta property="og:locale" content="zh_TW" />
@@ -29,7 +43,7 @@
         "@type": "WebApplication",
         "name": "兩岸用語對照・簡繁轉換器",
         "url": "https://zhang-renwen.github.io/cn-tw-terms/",
-        "description": "簡體轉台灣正體，同時把中國用語換成台灣用語，並標出評價意涵與同字異義。",
+        "description": "簡體轉台灣地區正體，同時把中國大陸用語換成台灣地區用語，並標出評價意涵與同字異義。",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "inLanguage": "zh-Hant-TW",
@@ -53,9 +67,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=1.2.0" />
   </head>
   <body>
     <div class="wrap">
@@ -63,23 +77,78 @@
         <div>
           <h1>
             <span class="from" id="hFrom">简</span><span class="arrow">→</span
-            ><span id="hTo">繁</span> 轉換器
+            ><span id="hTo">繁</span>
+            <span data-i18n="app.suffix">轉換器</span>
           </h1>
-          <p class="sub" id="modeDesc">簡體轉台灣正體，並套用兩岸用語詞彙庫</p>
+          <p class="sub" id="modeDesc">簡體轉台灣地區正體，並套用兩岸用語詞彙庫</p>
         </div>
-        <div class="modes" role="group" aria-label="轉換模式" id="modes">
-          <button class="mode" data-mode="cn-twp" aria-pressed="true">
-            簡→繁＋台灣詞彙
-          </button>
-          <button class="mode" data-mode="cn-tw" aria-pressed="false">
-            簡→繁
-          </button>
-          <button class="mode" data-mode="cn-hk" aria-pressed="false">
-            香港字形
-          </button>
-          <button class="mode" data-mode="tw-cn" aria-pressed="false">
-            繁→簡
-          </button>
+        <div class="header-side">
+          <div
+            class="chips lang-switch"
+            id="uiLang"
+            role="group"
+            data-i18n-aria="uiLang.label"
+            aria-label="介面語言"
+          >
+            <button
+              class="chip"
+              data-lang="hant"
+              lang="zh-Hant"
+              aria-pressed="true"
+              title="繁體中文"
+            >
+              繁體
+            </button>
+            <button
+              class="chip"
+              data-lang="hans"
+              lang="zh-Hans"
+              aria-pressed="false"
+              title="简体中文"
+            >
+              简体
+            </button>
+          </div>
+          <div
+            class="modes"
+            role="group"
+            data-i18n-aria="modes.label"
+            aria-label="轉換模式"
+            id="modes"
+          >
+            <button
+              class="mode"
+              data-mode="cn-twp"
+              data-i18n="mode.cn-twp.name"
+              aria-pressed="true"
+            >
+              簡→繁＋台灣地區詞彙
+            </button>
+            <button
+              class="mode"
+              data-mode="cn-tw"
+              data-i18n="mode.cn-tw.name"
+              aria-pressed="false"
+            >
+              簡→繁
+            </button>
+            <button
+              class="mode"
+              data-mode="cn-hk"
+              data-i18n="mode.cn-hk.name"
+              aria-pressed="false"
+            >
+              香港字形
+            </button>
+            <button
+              class="mode"
+              data-mode="tw-cn"
+              data-i18n="mode.tw-cn.name"
+              aria-pressed="false"
+            >
+              繁→簡
+            </button>
+          </div>
         </div>
       </header>
 
@@ -88,6 +157,7 @@
           class="tab"
           role="tab"
           id="tabConv"
+          data-i18n="tab.conv"
           aria-selected="true"
           aria-controls="viewConv"
         >
@@ -100,7 +170,18 @@
           aria-selected="false"
           aria-controls="viewLib"
         >
-          詞彙庫<span class="n" id="libCount">0</span>
+          <span data-i18n="tab.lib">詞彙庫</span
+          ><span class="n" id="libCount">0</span>
+        </button>
+        <button
+          class="tab"
+          role="tab"
+          id="tabEpub"
+          data-i18n="tab.epub"
+          aria-selected="false"
+          aria-controls="viewEpub"
+        >
+          EPUB 轉換
         </button>
       </div>
 
@@ -120,18 +201,27 @@
               class="main"
               id="input"
               spellcheck="false"
+              data-i18n-aria="conv.inputAria"
               aria-label="輸入原文"
             ></textarea>
             <div class="pane-foot">
-              <button class="btn" id="paste">貼上範例</button>
-              <button class="btn" id="clear">清除</button>
-              <span class="status" id="status">載入轉換字典中…</span>
+              <button class="btn" id="paste" data-i18n="conv.paste">
+                貼上範例
+              </button>
+              <button class="btn" id="clear" data-i18n="conv.clear">
+                清除
+              </button>
+              <span class="status" id="status" data-i18n="status.loadingDict"
+                >載入轉換字典中…</span
+              >
             </div>
           </section>
 
           <button
             class="swap"
             id="swap"
+            data-i18n-title="conv.swapTitle"
+            data-i18n-aria="conv.swapAria"
             title="把結果放回輸入並反向轉換"
             aria-label="反向轉換"
           >
@@ -143,27 +233,36 @@
               <span class="label" id="outLabel">結果 · 繁體</span
               ><span class="count" id="outCount">0 字變更</span>
             </div>
-            <div class="out" id="output" aria-live="polite"></div>
+            <div
+              class="out"
+              id="output"
+              aria-live="polite"
+              data-i18n-empty="conv.empty"
+              data-empty="轉換結果會出現在這裡"
+            ></div>
             <div class="pane-foot">
-              <button class="btn primary" id="copy">複製結果</button>
+              <button class="btn primary" id="copy" data-i18n="conv.copy">
+                複製結果
+              </button>
               <span class="toast" id="toast"></span>
               <label class="toggle"
-                ><input type="checkbox" id="hl" checked /> 標示變更</label
+                ><input type="checkbox" id="hl" checked />
+                <span data-i18n="conv.hl">標示變更</span></label
               >
             </div>
           </section>
         </div>
 
         <div class="legend">
-          <span><i class="sw c"></i>字形轉換</span>
-          <span><i class="sw v"></i>用語替換</span>
-          <span><i class="sw l"></i>帶評價意涵</span>
-          <span><i class="sw f"></i>同字異義</span>
-          <span><b class="caret">▾</b>可點選換說法</span>
+          <span><i class="sw c"></i><span data-i18n="legend.glyph">字形轉換</span></span>
+          <span><i class="sw v"></i><span data-i18n="legend.vocab">用語替換</span></span>
+          <span><i class="sw l"></i><span data-i18n="legend.loaded">帶評價意涵</span></span>
+          <span><i class="sw f"></i><span data-i18n="legend.false">同字異義</span></span>
+          <span><b class="caret">▾</b><span data-i18n="legend.pick">可點選換說法</span></span>
         </div>
 
         <section class="found" id="found" hidden>
-          <h2>這段文字裡的兩岸用語</h2>
+          <h2 data-i18n="found.title">這段文字裡的兩岸用語</h2>
           <ul id="foundList"></ul>
         </section>
       </section>
@@ -179,21 +278,46 @@
           <input
             type="search"
             id="q"
-            placeholder="搜尋中國或台灣用語、備註"
+            data-i18n-ph="lib.search"
+            data-i18n-aria="lib.searchAria"
+            placeholder="搜尋中國大陸或台灣地區用語、備註"
             aria-label="搜尋詞彙"
           />
-          <select id="catSel" aria-label="分類">
-            <option value="">全部分類</option>
+          <select id="catSel" data-i18n-aria="lib.catAria" aria-label="分類">
+            <option value="" data-i18n="lib.allCats">全部分類</option>
           </select>
-          <div class="chips" id="kindChips" role="group" aria-label="類型">
-            <button class="chip" data-kind="" aria-pressed="true">全部</button>
-            <button class="chip" data-kind="vocab" aria-pressed="false">
+          <div
+            class="chips"
+            id="kindChips"
+            role="group"
+            data-i18n-aria="lib.kindAria"
+            aria-label="類型"
+          >
+            <button class="chip" data-kind="" data-i18n="lib.kindAll" aria-pressed="true">
+              全部
+            </button>
+            <button
+              class="chip"
+              data-kind="vocab"
+              data-i18n="kind.vocab"
+              aria-pressed="false"
+            >
               一般用語
             </button>
-            <button class="chip" data-kind="loaded" aria-pressed="false">
+            <button
+              class="chip"
+              data-kind="loaded"
+              data-i18n="kind.loaded"
+              aria-pressed="false"
+            >
               評價意涵
             </button>
-            <button class="chip" data-kind="false" aria-pressed="false">
+            <button
+              class="chip"
+              data-kind="false"
+              data-i18n="kind.false"
+              aria-pressed="false"
+            >
               同字異義
             </button>
           </div>
@@ -203,61 +327,97 @@
           <table>
             <thead>
               <tr>
-                <th>中國用語</th>
-                <th>台灣用語</th>
-                <th>類型</th>
-                <th>分類</th>
-                <th>備註</th>
+                <th data-i18n="lib.thCn">中國大陸用語</th>
+                <th data-i18n="lib.thTw">台灣地區用語</th>
+                <th data-i18n="lib.thKind">類型</th>
+                <th data-i18n="lib.thCat">分類</th>
+                <th data-i18n="lib.thNote">備註</th>
               </tr>
             </thead>
             <tbody id="rows"></tbody>
           </table>
-          <div class="empty" id="libEmpty">詞彙庫載入中…</div>
+          <div class="empty" id="libEmpty" data-i18n="lib.loading">詞彙庫載入中…</div>
         </div>
 
         <div class="cols">
           <form class="form" id="termForm">
-            <h2>提議新增詞彙</h2>
+            <h2 data-i18n="form.title">提議新增詞彙</h2>
             <div class="row">
               <label
-                >中國用語<input id="fCn" required placeholder="充電寶"
+                ><span data-i18n="form.cn">中國大陸用語</span
+                ><input
+                  id="fCn"
+                  required
+                  data-i18n-ph="form.cnPh"
+                  placeholder="充電寶"
               /></label>
               <label
-                >台灣用語<input id="fTw" placeholder="行動電源（多個用、分隔）"
+                ><span data-i18n="form.tw">台灣地區用語</span
+                ><input
+                  id="fTw"
+                  data-i18n-ph="form.twPh"
+                  placeholder="行動電源（多個用、分隔）"
               /></label>
             </div>
             <div class="row">
               <label
-                >類型
+                ><span data-i18n="form.kind">類型</span>
                 <select id="fKind">
-                  <option value="vocab">一般用語（轉換時直接替換）</option>
-                  <option value="loaded">評價意涵（只標示、不替換）</option>
-                  <option value="false">同字異義（只標示、不替換）</option>
+                  <option value="vocab" data-i18n="form.kindVocab">
+                    一般用語（轉換時直接替換）
+                  </option>
+                  <option value="loaded" data-i18n="form.kindLoaded">
+                    評價意涵（只標示、不替換）
+                  </option>
+                  <option value="false" data-i18n="form.kindFalse">
+                    同字異義（只標示、不替換）
+                  </option>
                 </select>
               </label>
-              <label>分類<select id="fCat"></select></label>
+              <label
+                ><span data-i18n="form.cat">分類</span
+                ><select id="fCat"></select
+              ></label>
             </div>
             <label
-              >備註<input id="fNote" placeholder="意涵、出處或使用提醒"
+              ><span data-i18n="form.note">備註</span
+              ><input
+                id="fNote"
+                data-i18n-ph="form.notePh"
+                placeholder="意涵、出處或使用提醒"
             /></label>
             <div class="actions">
-              <button class="btn primary" type="submit">產生 JSON</button>
+              <button class="btn primary" type="submit" data-i18n="form.generate">
+                產生 JSON
+              </button>
               <span class="toast" id="fMsg"></span>
             </div>
           </form>
 
           <div class="form">
-            <h2>送出 Pull Request</h2>
+            <h2 data-i18n="form.prTitle">送出 Pull Request</h2>
             <ol>
-              <li>在左邊填好詞彙，按「產生 JSON」並複製。</li>
-              <li>
+              <li data-i18n="form.step1">
+                在左邊填好詞彙，按「產生 JSON」並複製。
+              </li>
+              <li data-i18n="form.step2">
                 按「在 GitHub 編輯」打開對應分類的檔案，GitHub 會自動幫你 fork。
               </li>
-              <li>把這段貼進 <code>terms</code> 陣列，送出 Pull Request。</li>
+              <li>
+                <span data-i18n="form.step3a">把這段貼進</span>
+                <code>terms</code>
+                <span data-i18n="form.step3b">陣列，送出 Pull Request。</span>
+              </li>
             </ol>
             <pre id="snippet">填好左邊表單後，這裡會出現要貼上的內容。</pre>
             <div class="actions">
-              <button class="btn" id="copySnippet" type="button" disabled>
+              <button
+                class="btn"
+                id="copySnippet"
+                type="button"
+                data-i18n="form.copyJson"
+                disabled
+              >
                 複製 JSON
               </button>
               <a
@@ -266,6 +426,7 @@
                 href="#"
                 target="_blank"
                 rel="noopener"
+                data-i18n="form.editGithub"
                 hidden
                 >在 GitHub 編輯</a
               >
@@ -275,6 +436,7 @@
                 href="#"
                 target="_blank"
                 rel="noopener"
+                data-i18n="form.issue"
                 hidden
                 >改用 Issue 提議</a
               >
@@ -284,22 +446,157 @@
         </div>
       </section>
 
+      <!-- EPUB 轉換 -->
+      <section
+        id="viewEpub"
+        role="tabpanel"
+        hidden
+        style="flex-direction: column; gap: 16px"
+      >
+        <section class="pane">
+          <div class="pane-head">
+            <span class="label" id="epubTitle">繁體 EPUB → 簡體 EPUB</span>
+            <span class="count" id="epubSize">未選擇檔案</span>
+          </div>
+
+          <div
+            class="chips epub-dir"
+            id="epubDir"
+            role="group"
+            data-i18n-aria="epub.dirAria"
+            aria-label="轉換方向"
+          >
+            <button
+              class="chip"
+              data-dir="to-cn"
+              data-i18n="epub.dirToCn"
+              aria-pressed="true"
+            >
+              繁 → 簡
+            </button>
+            <button
+              class="chip"
+              data-dir="to-tw"
+              data-i18n="epub.dirToTw"
+              aria-pressed="false"
+            >
+              簡 → 繁
+            </button>
+          </div>
+
+          <div
+            class="drop"
+            id="epubDrop"
+            tabindex="0"
+            role="button"
+            data-i18n-aria="epub.dropAria"
+            aria-label="選擇或拖放 EPUB 檔案"
+          >
+            <p class="big" id="epubDropBig">把繁體 EPUB 拖到這裡</p>
+            <span class="btn primary" data-i18n="epub.choose">選擇檔案</span>
+            <p class="hint" data-i18n="epub.hint">
+              支援 EPUB2／EPUB3。檔案只在瀏覽器內處理，不會上傳。
+            </p>
+            <input
+              type="file"
+              id="epubFile"
+              accept=".epub,application/epub+zip"
+              hidden
+            />
+          </div>
+
+          <div class="fileinfo" id="epubInfo" hidden>
+            <span class="name" id="epubName"></span>
+          </div>
+
+          <div class="epub-opts">
+            <label class="toggle"
+              ><input type="checkbox" id="optTerms" checked />
+              <span id="optTermsText">同時套用台灣地區→中國大陸用語詞彙庫</span></label
+            >
+            <label class="toggle"
+              ><input type="checkbox" id="optMeta" checked />
+              <span id="optMetaText">轉換書名、作者、簡介，語言標為 zh-CN</span></label
+            >
+          </div>
+
+          <div class="epub-progress">
+            <progress
+              id="epubProg"
+              max="100"
+              value="0"
+              data-i18n-aria="epub.progressAria"
+              aria-label="轉換進度"
+            ></progress>
+            <p class="status" id="epubMsg" aria-live="polite">
+              選擇檔案後開始。
+            </p>
+            <p class="epub-stats" id="epubStats"></p>
+          </div>
+
+          <div class="pane-foot">
+            <button
+              class="btn primary"
+              id="epubGo"
+              type="button"
+              data-i18n="epub.go"
+              disabled
+            >
+              開始轉換
+            </button>
+            <a
+              class="btn primary"
+              id="epubDl"
+              download
+              data-i18n="epub.dl"
+              hidden
+            >
+              下載簡體 EPUB
+            </a>
+            <button class="btn" id="epubReset" type="button" data-i18n="epub.reset" hidden>
+              再轉一本
+            </button>
+          </div>
+        </section>
+
+        <div class="ro">
+          <strong data-i18n="epub.noteLead">說明：</strong
+          ><span data-i18n="epub.note"
+            >轉換只在你的瀏覽器內完成，檔案不會上傳。支援繁體轉簡體與簡體轉繁體，會轉換
+            XHTML／HTML 正文、目錄與書名等中繼資料；圖片、樣式與版面不動。受 DRM
+            保護的電子書會中止轉換；字型混淆等其他加密項目會原樣保留。</span
+          >
+        </div>
+      </section>
+
       <p class="intro">
-        這是一個免費的線上簡繁轉換工具：貼上簡體中文，會轉成台灣正體字，並把中國用語換成台灣習慣的說法，例如視頻→影片、軟件→軟體、充電寶→行動電源。帶有評價意涵的詞（如顏值、下沉市場）和兩岸意思不同的詞（如窩心、愛人）會另外標示說明。想查單一詞彙，可以看<a href="terms/">兩岸用語對照表</a>。
+        <span data-i18n="intro.a"
+          >這是一個免費的線上簡繁轉換工具：貼上簡體中文，會轉成台灣地區正體字，並把中國大陸用語換成台灣地區習慣的說法，例如視頻→影片、軟件→軟體、充電寶→行動電源。帶有評價意涵的詞（如顏值、下沉市場）和兩岸意思不同的詞（如窩心、愛人）會另外標示說明。想查單一詞彙，可以看</span
+        ><a href="terms/" data-i18n="intro.link">兩岸用語對照表</a
+        ><span data-i18n="intro.b"
+          >。也可以上傳 EPUB，在瀏覽器內於簡體與繁體之間轉換後下載。</span
+        >
       </p>
 
       <footer>
-        字形轉換使用開源字典
-        <code>OpenCC</code>，在瀏覽器內完成，文字不會上傳。詞彙庫是
-        <code>data/</code> 資料夾裡的 JSON 檔，歡迎提交 Pull Request
-        擴充。「一般用語」在「簡→繁＋台灣詞彙」模式會直接替換，其他模式只標示；「評價意涵」與「同字異義」永遠只標示，滑過可看備註；有多種說法的詞可以點一下，選擇其他說法或保留原文。台灣文字也可以貼進來檢查有沒有中國用語。<span
-          id="repoLine"
-        ></span>
+        <span data-i18n="foot.a">字形轉換使用開源字典</span>
+        <code>OpenCC</code><span data-i18n="foot.b"
+          >，在瀏覽器內完成，文字不會上傳。詞彙庫是</span
+        >
+        <code>data/</code> <span data-i18n="foot.c"
+          >資料夾裡的 JSON 檔，歡迎提交 Pull Request
+          擴充。「一般用語」在「簡→繁＋台灣地區詞彙」模式會直接替換，其他模式只標示；「評價意涵」與「同字異義」永遠只標示，滑過可看備註；有多種說法的詞可以點一下，選擇其他說法或保留原文。台灣地區的文字也可以貼進來檢查有沒有中國大陸用語；EPUB
+          轉換同樣在瀏覽器內完成，支援 EPUB2／EPUB3、簡繁雙向。</span
+        ><span id="repoLine"></span>
       </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <!-- ?v= 版本號用來避開瀏覽器快取；改動下方檔案時請一併更新版本號 -->
+    <script src="config.js?v=1.2.0"></script>
+    <script src="epub-core.js?v=1.2.0"></script>
+    <script src="i18n.js?v=1.2.0"></script>
+    <script src="app.js?v=1.2.0"></script>
   </body>
 </html>

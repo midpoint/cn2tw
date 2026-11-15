@@ -2,10 +2,10 @@ name: 檢查詞彙庫
 
 on:
   pull_request:
-    paths: ['data/**', 'scripts/**']
+    paths: ['data/**', 'scripts/**', 'tools/**', 'extension/**', 'app.js', 'i18n.js', 'epub-core.js', 'package.json', 'package-lock.json']
   push:
     branches: [main]
-    paths: ['data/**', 'scripts/**']
+    paths: ['data/**', 'scripts/**', 'tools/**', 'extension/**', 'app.js', 'i18n.js', 'epub-core.js', 'package.json', 'package-lock.json']
 
 jobs:
   validate:
@@ -15,4 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - run: npm ci
       - run: node scripts/validate.mjs
+      - run: node --check app.js && node --check i18n.js && node --check epub-core.js && node --check tools/epub-convert.mjs && node --check tools/build-extension.mjs
+      - run: node --check extension/content.js && node --check extension/background.js && node --check extension/popup.js && node --check extension/terms-data.js && node --check extension/vendor/epub-core.js
+      - run: node tools/build-extension.mjs --check

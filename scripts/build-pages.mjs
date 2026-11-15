@@ -63,7 +63,7 @@ const page = ({ title, desc, url, body, jsonld }) => `<!doctype html>
     <div class="wrap doc">
 ${body}
       <footer>
-        <a href="../">簡繁轉換器</a>：簡體轉台灣正體，並套用兩岸用語詞彙庫。詞彙庫由社群維護，<a href="https://github.com/${repo}">歡迎在 GitHub 提議或修正</a>。
+        <a href="../">簡繁轉換器</a>：簡體轉台灣地區正體，並套用兩岸用語詞彙庫。詞彙庫由社群維護，<a href="https://github.com/${repo}">歡迎在 GitHub 提議或修正</a>。
       </footer>
     </div>
   </body>
@@ -75,17 +75,17 @@ function termPage(t) {
   const tw = t.tw || '', short = firstAlt(tw), none = noMatch(tw);
   const url = SITE + 'terms/' + slug(t.cn);
   const title = none
-    ? `「${t.cn}」是什麼意思？台灣怎麼說｜兩岸用語對照`
+    ? `「${t.cn}」是什麼意思？台灣地區怎麼說｜兩岸用語對照`
     : t.kind === 'false'
-      ? `「${t.cn}」兩岸意思不同，台灣說「${short}」｜兩岸用語對照`
-      : `「${t.cn}」台灣怎麼說？→ ${short}｜兩岸用語對照`;
+      ? `「${t.cn}」兩岸意思不同，台灣地區說「${short}」｜兩岸用語對照`
+      : `「${t.cn}」台灣地區怎麼說？→ ${short}｜兩岸用語對照`;
   const lead = none
-    ? `「${t.cn}」是中國用語，台灣沒有固定對應的說法。`
+    ? `「${t.cn}」是中國大陸用語，台灣地區沒有固定對應的說法。`
     : t.kind === 'false'
-      ? `「${t.cn}」兩岸都有這個詞，但意思或用法不同。台灣的對應說法是「${tw}」。`
+      ? `「${t.cn}」兩岸都有這個詞，但意思或用法不同。台灣地區的對應說法是「${tw}」。`
       : t.kind === 'loaded'
-        ? `「${t.cn}」是帶有評價意涵的中國用語，台灣較接近的說法是「${tw}」。`
-        : `中國用語「${t.cn}」，台灣通常說「${tw}」。`;
+        ? `「${t.cn}」是帶有評價意涵的中國大陸用語，台灣地區較接近的說法是「${tw}」。`
+        : `中國大陸用語「${t.cn}」，台灣地區通常說「${tw}」。`;
   const desc = (lead + (t.note ? t.note.replace(/[；;，,。\s]+$/, '') + '。' : '') + '收錄於兩岸用語對照表，可直接用簡繁轉換器轉換。').slice(0, 150);
   const cat = cats.find(c => c.name === t.cat);
   const related = cat.terms.filter(x => x.cn !== t.cn).slice(0, 12);
@@ -94,7 +94,7 @@ function termPage(t) {
         <h1>${esc(t.cn)}</h1>
         <p class="lead">${esc(lead)}</p>
         <dl>
-          <dt>台灣說法</dt><dd>${esc(none ? '無固定對應' : tw)}</dd>
+          <dt>台灣地區說法</dt><dd>${esc(none ? '無固定對應' : tw)}</dd>
           <dt>類型</dt><dd><span class="kind ${t.kind}">${KIND[t.kind]}</span></dd>
           <dt>分類</dt><dd>${esc(t.cat)}</dd>
           ${t.note ? `<dt>說明</dt><dd>${esc(t.note)}</dd>` : ''}
@@ -116,8 +116,8 @@ function termPage(t) {
 // ---------- 總表 ----------
 function indexPage() {
   const url = SITE + 'terms/';
-  const title = `兩岸用語對照表：中國用語 vs 台灣用語（${all.length} 詞）`;
-  const desc = `整理 ${all.length} 個中國與台灣的用語差異，分成 ${cats.length} 類：一般用語、評價意涵、同字異義，附說明與簡繁轉換器。`;
+  const title = `兩岸用語對照表：中國大陸用語 vs 台灣地區用語（${all.length} 詞）`;
+  const desc = `整理 ${all.length} 個中國大陸與台灣地區的用語差異，分成 ${cats.length} 類：一般用語、評價意涵、同字異義，附說明與簡繁轉換器。`;
   const body = `      <nav class="crumbs"><a href="../">簡繁轉換器</a> › 兩岸用語對照表</nav>
       <header><div>
         <h1>兩岸用語對照表</h1>
