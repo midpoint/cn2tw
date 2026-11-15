@@ -19,6 +19,9 @@
 ## 项目结构
 
 ```
+README.md                  简体中文说明（默认）
+README.zh-Hant.md          繁体中文说明
+CONTRIBUTING.md            词汇贡献指南
 index.html                 页面
 style.css                  样式
 app.js                     转换与词汇匹配逻辑
@@ -39,11 +42,11 @@ package.json               CLI 与扩展构建依赖（jszip、opencc-js）
 ## 上线（GitHub Pages）
 
 1. 建立 repo，把整个文件夹推上去。
-2. 编辑 `config.js`，把 `repo` 改成 `你的账号/repo名称`。
-3. 到 repo 的 **Settings → Pages**，Source 选 **Deploy from a branch**，分支选 `main`、文件夹选 `/ (root)`。
-4. 约一分钟后网址会出现在同一页，通常是 `https://你的账号.github.io/repo名称/`。
+2. 编辑 `config.js`，把 `repo` 改成 `你的账号/repo名称`（本仓库已设为 `midpoint/cn2tw`）。
+3. 到 repo 的 **Settings → Pages**，Source 选 **GitHub Actions**。
+4. 推送到 `main` 后，工作流会生成词汇页与 `sitemap.xml` 并部署；本仓库网址是 `https://midpoint.github.io/cn2tw/`。
 
-之后每次合并 PR，网站就会自动更新。
+之后每次推送到 `main`（包含合并 PR），网站就会自动更新。
 
 ## 本地预览
 
@@ -83,7 +86,7 @@ python3 -m http.server 8000
 
 权限与隐私：需要在所有 http/https 网页注入 content script（Chrome 会显示「读取和更改所有网站上的数据」），另用 `storage` 存设置、`activeTab` 读取当前标签页状态。OpenCC 与词汇数据都打包在扩展内，不联网、不收集页面内容。快捷键 `Alt+Shift+J` 可暂停／恢复本页；徽章显示「繁」或「简」。
 
-`extension/` 不会部署到 GitHub Pages。完整说明、限制与开发方式见 [`extension/README.md`](extension/README.md)。
+`extension/` 不会部署到 GitHub Pages。完整说明、限制与开发方式见 [`extension/README.md`](extension/README.md)（繁体中文）。
 
 ## 命令行批量转换 EPUB
 
@@ -122,7 +125,7 @@ node tools/epub-convert.mjs --to tw --no-terms novel.epub
 
 ## 贡献词汇
 
-请看 [CONTRIBUTING.md](CONTRIBUTING.md)。网站的「词汇库」标签页也有表单，可以生成要粘贴的 JSON，并直接打开 GitHub 的编辑页。
+请看 [CONTRIBUTING.md](CONTRIBUTING.md)（繁体中文）。网站的「词汇库」标签页也有表单，可以生成要粘贴的 JSON，并直接打开 GitHub 的编辑页。
 
 ## 词汇库来源（v1.0.0）
 

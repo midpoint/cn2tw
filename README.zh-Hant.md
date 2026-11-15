@@ -19,6 +19,9 @@
 ## 專案結構
 
 ```
+README.md                  簡體中文說明（預設）
+README.zh-Hant.md          繁體中文說明
+CONTRIBUTING.md            詞彙貢獻指南
 index.html                 頁面
 style.css                  樣式
 app.js                     轉換與詞彙比對邏輯
@@ -39,11 +42,11 @@ package.json               CLI 與擴充建置依賴（jszip、opencc-js）
 ## 上線（GitHub Pages）
 
 1. 建立 repo，把整個資料夾推上去。
-2. 編輯 `config.js`，把 `repo` 改成 `你的帳號/repo名稱`。
-3. 到 repo 的 **Settings → Pages**，Source 選 **Deploy from a branch**，分支選 `main`、資料夾選 `/ (root)`。
-4. 約一分鐘後網址會出現在同一頁，通常是 `https://你的帳號.github.io/repo名稱/`。
+2. 編輯 `config.js`，把 `repo` 改成 `你的帳號/repo名稱`（本 repo 已設為 `midpoint/cn2tw`）。
+3. 到 repo 的 **Settings → Pages**，Source 選 **GitHub Actions**。
+4. 推送到 `main` 後，工作流程會產生詞彙頁與 `sitemap.xml` 並部署；本 repo 網址是 `https://midpoint.github.io/cn2tw/`。
 
-之後每次合併 PR，網站就會自動更新。
+之後每次推送到 `main`（包含合併 PR），網站就會自動更新。
 
 ## 本機預覽
 
